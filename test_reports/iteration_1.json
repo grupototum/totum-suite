@@ -1,0 +1,53 @@
+{
+  "summary": "End-to-end testing of Mixpost Clone: 17/17 backend pytest pass, all frontend critical flows pass (login, composer with AI, posts, calendar, accounts, analytics, settings, logout, protected routes).",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {
+        "endpoint": "/api/auth/login",
+        "issue": "Brute-force lockout (429) fires only after ~7 failed attempts though code threshold is count>=5. Likely caused by request.client.host varying across ingress paths (identifier = ip:email). Functional but stricter than intended."
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "Composer / scheduling",
+        "issues": [
+          "ComposerPage 'Agendar para' uses native browser <input type=datetime-local> (placeholder mm/dd/yyyy, --:-- --) instead of a styled shadcn calendar/date picker. Recommend replacing with the shadcn Calendar+Popover component for consistent Swiss/Brutalist look."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_mixpost_api.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Replace native datetime-local picker on Composer scheduling with shadcn Calendar component for consistent design.",
+    "(Optional) Make brute-force identifier independent of request.client.host (e.g., use only normalized email + X-Forwarded-For) so 5-attempt threshold is honored exactly."
+  ],
+  "critical_code_review_comments": [
+    "server.py is ~800 lines; consider splitting routers (auth, workspaces, posts, analytics, ai) into separate modules under /app/backend/routers for maintainability.",
+    "Brute-force lockout uses request.client.host — behind ingress, this is the proxy IP, not the real client. Use request.headers.get('x-forwarded-for') split[0] for accurate per-IP throttling.",
+    "_user_from_session_token does not enforce auth_provider='google' check — any session_token row in user_sessions would authenticate (acceptable here, just call out).",
+    "set_jwt_cookies/set_session_cookie hardcode secure=True+samesite=none which is correct for cross-site preview; ensure local dev has equivalent overrides.",
+    "AI suggest model whitelist (ALLOWED_MODELS) defines 'gpt-5.2' which is unreleased — keep but make 'gpt-4o-mini' default fallback (already done).",
+    "Posts list endpoint trusts query string status without enum validation; consider Literal type on the query param."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_mixpost_api.py"
+  ],
+  "success_rate": {
+    "backend": "100% (17/17)",
+    "frontend": "100% of critical flows tested (login, composer+AI variations, posts, calendar, accounts modal, analytics chart, settings, logout, protected routes)"
+  },
+  "test_credentials": "admin@mixpost.app/admin123 (admin) and user@mixpost.app/user123 (user) — seeded; documented in /app/memory/test_credentials.md.",
+  "seed_data_creation": "Tests created some TEST_-prefixed users/workspaces/social accounts/posts; no destructive cleanup performed — safe to leave.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend API regression suite at /app/backend/tests/test_mixpost_api.py covers: health, auth (login/register/me/refresh/logout/forgot/reset/Emergent session/brute-force), workspaces CRUD, social accounts CRUD, posts lifecycle (draft/scheduled/publish/update/delete/list), calendar window, analytics summary, AI suggest (uses real EMERGENT_LLM_KEY -> gpt-4o-mini, ~6s). Run: pytest /app/backend/tests/test_mixpost_api.py -v. Frontend tested against REACT_APP_BACKEND_URL preview URL — all data-testid selectors present & functional. AI variations require user to click 'Usar este' to populate composer textarea (by design, not a bug). Composer scheduling uses native datetime-local — only design nit found.",
+  "rca of the issue": "No blocking bugs. Minor brute-force off-by-2 RCA: identifier = '{ip}:{email}', and request.client.host is the K8s ingress proxy IP which can briefly differ across pods, fragmenting the count across multiple identifier rows so the 5-fail threshold is hit later than in single-process testing. Mitigation: use X-Forwarded-For header or just the normalized email."
+}
