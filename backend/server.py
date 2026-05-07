@@ -247,10 +247,22 @@ async def register(body: RegisterIn, response: Response):
     set_jwt_cookies(response, access, refresh)
     return to_user_public(doc)
 
+def get_client_ip(request: Request) -> str:
+    """Get real client IP, honoring proxy/ingress X-Forwarded-For header."""
+    fwd = request.headers.get("x-forwarded-for", "")
+    if fwd:
+        # X-Forwarded-For: client, proxy1, proxy2 — first entry is the real client
+        return fwd.split(",")[0].strip()
+    real_ip = request.headers.get("x-real-ip", "")
+    if real_ip:
+        return real_ip.strip()
+    return request.client.host if request.client else "unknown"
+
+
 @api.post("/auth/login", response_model=UserPublic)
 async def login(body: LoginIn, request: Request, response: Response):
     email = body.email.lower().strip()
-    ip = request.client.host if request.client else "unknown"
+    ip = get_client_ip(request)
     ident = f"{ip}:{email}"
     # Brute force protection
     attempt = await db.login_attempts.find_one({"identifier": ident})

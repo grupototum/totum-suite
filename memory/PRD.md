@@ -39,20 +39,23 @@ User choices:
 - ✅ Proteção de rotas, AuthCallback do Google, brute-force protection
 - ✅ data-testid em todos os elementos interativos
 - ✅ Design Swiss/Brutalist (Cabinet Grotesk + IBM Plex Sans)
+- ✅ Code review aplicado: `secrets` para mock metrics, chaves estáveis, log no logout
+- ✅ **Marca totum aplicada** (logo oficial, paleta preto + vermelho cereja `#E63946`, favicon, `<title>`)
+- ✅ **shadcn Calendar+Popover** no agendamento do Composer (com locale ptBR e disabled past dates)
+- ✅ **Brute-force lê `X-Forwarded-For`** — agora preciso atrás do ingress (5 tentativas exatas → 429)
 
 ## Backlog (P0/P1/P2)
-**P1 — UX polish:**
-- Substituir `<input type=datetime-local>` por shadcn Calendar+Popover no Composer (mantém consistência visual).
-
-**P1 — robustez:**
-- Brute-force: usar `X-Forwarded-For` em vez de `request.client.host` (mais preciso atrás de ingress).
+**P1 — produto:**
+- "Modo Marca" no workspace: tom de voz, paleta, hashtags pilares e CTAs preferidos para a IA gerar variações alinhadas à identidade da marca.
+- Worker de scheduling (APS/Celery) que efetivamente publica posts agendados na hora marcada.
 - Validar `status` no listing com `Literal` no query param.
 
 **P2 — produto:**
 - Integrações reais (X, Meta, LinkedIn) substituindo as mock (estrutura pronta).
-- Workers de scheduling (Celery/APS) que efetivamente publicam posts agendados.
 - Convites de membros por workspace + RBAC.
 - Upload nativo de mídia (S3/Cloudinary) em vez de URL.
+- Inbox unificado (responder DMs/comentários direto na plataforma).
+- Aprovação multi-etapa (cliente → manager → publicação).
 - Splitting de `server.py` em routers (`/app/backend/routers/{auth,workspaces,posts,...}.py`).
 
 ## Test Credentials

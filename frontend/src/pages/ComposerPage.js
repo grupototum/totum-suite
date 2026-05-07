@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { api, formatApiError } from "@/lib/api";
-import { Sparkles, Send, Save, Calendar as Cal, X, Image as ImageIcon } from "lucide-react";
+import { Sparkles, Send, Save, Calendar as Cal, X, Image as ImageIcon, Clock } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
 
 const NETWORKS = [
     { id: "twitter", label: "X / Twitter", limit: 280 },
@@ -24,7 +28,9 @@ export default function ComposerPage() {
     const [content, setContent] = useState("");
     const [selected, setSelected] = useState(new Set());
     const [media, setMedia] = useState([]);
-    const [scheduleAt, setScheduleAt] = useState("");
+    const [scheduleDate, setScheduleDate] = useState(null);
+    const [scheduleTime, setScheduleTime] = useState("09:00");
+    const [scheduleOpen, setScheduleOpen] = useState(false);
     const [saving, setSaving] = useState(false);
     const [err, setErr] = useState(null);
     const [ok, setOk] = useState(null);
@@ -59,6 +65,14 @@ export default function ComposerPage() {
         Infinity,
     );
 
+    const buildScheduledISO = () => {
+        if (!scheduleDate) return null;
+        const [hh, mm] = (scheduleTime || "09:00").split(":").map((x) => parseInt(x, 10));
+        const d = new Date(scheduleDate);
+        d.setHours(hh || 0, mm || 0, 0, 0);
+        return d.toISOString();
+    };
+
     const submit = async (status) => {
         if (!activeWorkspace) return;
         setErr(null);
@@ -67,8 +81,9 @@ export default function ComposerPage() {
             setErr("Escreva o conteúdo do post.");
             return;
         }
-        if (status === "scheduled" && !scheduleAt) {
-            setErr("Escolha uma data/hora para agendar.");
+        const scheduledISO = buildScheduledISO();
+        if (status === "scheduled" && !scheduledISO) {
+            setErr("Escolha uma data e hora para agendar.");
             return;
         }
         setSaving(true);
@@ -78,7 +93,7 @@ export default function ComposerPage() {
                 content,
                 account_ids: Array.from(selected),
                 media_urls: media,
-                scheduled_at: status === "scheduled" ? new Date(scheduleAt).toISOString() : null,
+                scheduled_at: status === "scheduled" ? scheduledISO : null,
                 status,
             };
             const { data } = await api.post("/posts", body);
@@ -93,7 +108,8 @@ export default function ComposerPage() {
             setContent("");
             setMedia([]);
             setSelected(new Set());
-            setScheduleAt("");
+            setScheduleDate(null);
+            setScheduleTime("09:00");
         } catch (ex) {
             setErr(formatApiError(ex.response?.data?.detail));
         } finally {
@@ -226,12 +242,51 @@ export default function ComposerPage() {
                     <div className="grid sm:grid-cols-2 gap-3">
                         <div>
                             <div className="label-overline mb-2">agendar para</div>
+                            <Popover open={scheduleOpen} onOpenChange={setScheduleOpen}>
+                                <PopoverTrigger asChild>
+                                    <button
+                                        type="button"
+                                        data-testid="composer-schedule-trigger"
+                                        className="mp-input flex items-center gap-2 text-left"
+                                    >
+                                        <Cal size={16} />
+                                        <span className={scheduleDate ? "" : "text-[var(--mp-muted)]"}>
+                                            {scheduleDate
+                                                ? format(scheduleDate, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })
+                                                : "Escolher data"}
+                                        </span>
+                                    </button>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                    className="w-auto p-0 mp-card mp-shadow-soft border-black"
+                                    align="start"
+                                    data-testid="composer-schedule-popover"
+                                >
+                                    <Calendar
+                                        mode="single"
+                                        selected={scheduleDate}
+                                        onSelect={(d) => {
+                                            setScheduleDate(d);
+                                            if (d) setScheduleOpen(false);
+                                        }}
+                                        locale={ptBR}
+                                        weekStartsOn={1}
+                                        disabled={{ before: new Date(new Date().setHours(0, 0, 0, 0)) }}
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                        <div>
+                            <div className="label-overline mb-2 flex items-center gap-1">
+                                <Clock size={11} /> hora
+                            </div>
                             <input
-                                data-testid="composer-schedule"
-                                type="datetime-local"
+                                data-testid="composer-schedule-time"
+                                type="time"
                                 className="mp-input"
-                                value={scheduleAt}
-                                onChange={(e) => setScheduleAt(e.target.value)}
+                                value={scheduleTime}
+                                onChange={(e) => setScheduleTime(e.target.value)}
                             />
                         </div>
                     </div>

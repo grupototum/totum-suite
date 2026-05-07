@@ -15,6 +15,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import { api, formatApiError } from "@/lib/api";
+import Brand from "@/components/Brand";
 
 const NAV = [
     { to: "/dashboard", icon: LayoutDashboard, label: "Painel" },
@@ -136,10 +137,9 @@ export default function Layout() {
             {/* Sidebar */}
             <aside className="w-64 border-r border-black bg-white flex flex-col" data-testid="sidebar">
                 <div className="p-5 border-b border-black">
-                    <Link to="/dashboard" className="font-display text-2xl tracking-tight">
-                        MIX<span className="text-[var(--mp-primary)]">/</span>POST
+                    <Link to="/dashboard" className="flex items-center gap-2.5" data-testid="sidebar-logo">
+                        <Brand size="md" variant="full" />
                     </Link>
-                    <div className="label-overline mt-1 text-[var(--mp-muted)]">Social OS</div>
                 </div>
                 <div className="p-3 border-b border-black">
                     <WorkspaceSwitcher />

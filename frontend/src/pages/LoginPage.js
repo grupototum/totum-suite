@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { formatApiError } from "@/lib/api";
+import Brand from "@/components/Brand";
 
 const FEATURED_IMG =
     "https://images.unsplash.com/photo-1649783467317-810564b3df8a?crop=entropy&cs=srgb&fm=jpg&w=1400&q=80";
@@ -60,10 +61,7 @@ export default function LoginPage({ mode = "login" }) {
                 />
                 <div className="absolute inset-0 bg-[var(--mp-primary)]/10 mp-grid-bg" />
                 <div className="relative p-10">
-                    <div className="font-display text-3xl tracking-tight">
-                        MIX<span className="text-[var(--mp-primary)]">/</span>POST
-                    </div>
-                    <div className="label-overline mt-2 text-[var(--mp-muted)]">Social Media OS</div>
+                    <Brand size="lg" variant="full" />
                 </div>
                 <div className="relative p-10">
                     <div className="mp-card p-6 max-w-sm bg-white">
@@ -87,8 +85,8 @@ export default function LoginPage({ mode = "login" }) {
             {/* Right: form */}
             <div className="flex items-center justify-center p-6 lg:p-12">
                 <div className="w-full max-w-md">
-                    <div className="lg:hidden font-display text-2xl mb-8">
-                        MIX<span className="text-[var(--mp-primary)]">/</span>POST
+                    <div className="lg:hidden mb-8">
+                        <Brand size="md" variant="full" />
                     </div>
                     <div className="label-overline mb-2">acesso</div>
                     <h1 className="font-display text-4xl mb-2">

@@ -10,11 +10,11 @@
     --mp-surface: #ffffff;
     --mp-text: #0a0a0a;
     --mp-muted: #525252;
-    --mp-primary: #002fa7;
-    --mp-primary-2: #0a3fc7;
-    --mp-secondary: #ffcc00;
+    --mp-primary: #e63946; /* totum red */
+    --mp-primary-2: #c5283d;
+    --mp-secondary: #ffd400; /* yellow accent */
     --mp-border: #0a0a0a;
-    --mp-error: #ff2a2a;
+    --mp-error: #c5283d;
     --mp-success: #00a35c;
 }
 
@@ -26,19 +26,19 @@
         --card-foreground: 0 0% 4%;
         --popover: 0 0% 100%;
         --popover-foreground: 0 0% 4%;
-        --primary: 222 100% 33%;
+        --primary: 354 78% 56%;
         --primary-foreground: 0 0% 100%;
-        --secondary: 49 100% 50%;
+        --secondary: 50 100% 50%;
         --secondary-foreground: 0 0% 4%;
         --muted: 0 0% 96%;
         --muted-foreground: 0 0% 32%;
-        --accent: 49 100% 50%;
+        --accent: 50 100% 50%;
         --accent-foreground: 0 0% 4%;
-        --destructive: 0 100% 58%;
+        --destructive: 354 64% 47%;
         --destructive-foreground: 0 0% 100%;
         --border: 0 0% 4%;
         --input: 0 0% 4%;
-        --ring: 222 100% 33%;
+        --ring: 354 78% 56%;
         --radius: 0px;
     }
 }
