@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { api } from "@/lib/api";
 import { Send, Trash2 } from "lucide-react";
@@ -17,7 +17,7 @@ export default function PostsPage() {
     const [filter, setFilter] = useState("all");
     const [loading, setLoading] = useState(true);
 
-    const load = async () => {
+    const load = useCallback(async () => {
         if (!activeWorkspace) return;
         setLoading(true);
         const params = { workspace_id: activeWorkspace.workspace_id };
@@ -25,11 +25,11 @@ export default function PostsPage() {
         const { data } = await api.get("/posts", { params });
         setPosts(data);
         setLoading(false);
-    };
+    }, [activeWorkspace, filter]);
 
     useEffect(() => {
         load();
-    }, [activeWorkspace, filter]);
+    }, [load]);
 
     const publish = async (id) => {
         await api.post(`/posts/${id}/publish`);

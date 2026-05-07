@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { api, formatApiError } from "@/lib/api";
 import { Twitter, Facebook, Instagram, Linkedin, Plus, Trash2 } from "lucide-react";
@@ -19,17 +19,17 @@ export default function AccountsPage() {
     const [displayName, setDisplayName] = useState("");
     const [err, setErr] = useState(null);
 
-    const load = async () => {
+    const load = useCallback(async () => {
         if (!activeWorkspace) return;
         const { data } = await api.get("/social-accounts", {
             params: { workspace_id: activeWorkspace.workspace_id },
         });
         setAccounts(data);
-    };
+    }, [activeWorkspace]);
 
     useEffect(() => {
         load();
-    }, [activeWorkspace]);
+    }, [load]);
 
     const connect = async (e) => {
         e.preventDefault();
