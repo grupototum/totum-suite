@@ -37,7 +37,7 @@ export default function AuthCallback() {
     }, [navigate, setUser, refreshWorkspaces, setActiveWorkspace]);
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#fafafa]">
+        <div className="min-h-screen flex items-center justify-center bg-[var(--mp-bg)]">
             <div className="mp-card p-10 w-[420px] text-center">
                 <div className="label-overline mb-3">autenticando</div>
                 <h1 className="font-display text-3xl mb-2">Conectando com Google…</h1>

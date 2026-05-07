@@ -85,7 +85,7 @@ export default function AccountsPage() {
                             className="mp-card mp-card-hover p-5 text-left"
                         >
                             <div
-                                className="w-10 h-10 border border-black flex items-center justify-center mb-3"
+                                className="w-10 h-10 rounded-[8px] border border-[var(--mp-border-strong)] flex items-center justify-center mb-3"
                                 style={{ background: p.color, color: "#fff" }}
                             >
                                 <p.icon size={18} />
@@ -117,7 +117,7 @@ export default function AccountsPage() {
                                     data-testid={`account-card-${a.account_id}`}
                                 >
                                     <div
-                                        className="w-10 h-10 border border-black flex items-center justify-center"
+                                        className="w-10 h-10 rounded-[8px] border border-[var(--mp-border-strong)] flex items-center justify-center"
                                         style={{ background: meta?.color, color: "#fff" }}
                                     >
                                         {meta && <meta.icon size={18} />}
@@ -149,7 +149,7 @@ export default function AccountsPage() {
             {/* Modal */}
             {showModal && (
                 <div
-                    className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+                    className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
                     onClick={() => setShowModal(false)}
                     data-testid="connect-modal"
                 >

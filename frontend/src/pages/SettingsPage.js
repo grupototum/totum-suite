@@ -89,8 +89,8 @@ export default function SettingsPage() {
                                         key={c}
                                         onClick={() => setColor(c)}
                                         data-testid={`color-${c}`}
-                                        className={`w-8 h-8 border ${color === c ? "outline outline-2 outline-offset-2 outline-black" : ""}`}
-                                        style={{ background: c, borderColor: "#0a0a0a" }}
+                                        className={`w-8 h-8 rounded-[6px] border border-[var(--mp-border-strong)] ${color === c ? "ring-2 ring-offset-2 ring-offset-[var(--mp-surface)] ring-[var(--mp-primary)]" : ""}`}
+                                        style={{ background: c, borderColor: "var(--mp-border-strong)" }}
                                     />
                                 ))}
                             </div>
@@ -105,7 +105,7 @@ export default function SettingsPage() {
             </section>
 
             <section className="mp-card">
-                <div className="p-5 border-b border-black">
+                <div className="p-5 border-b border-[var(--mp-border)]">
                     <div className="label-overline">workspaces</div>
                     <h2 className="font-display text-2xl">Seus espaços</h2>
                 </div>
@@ -113,13 +113,13 @@ export default function SettingsPage() {
                     {workspaces.map((w) => (
                         <li
                             key={w.workspace_id}
-                            className="p-4 border-b border-black/10 last:border-0 flex items-center gap-3"
+                            className="p-4 border-b border-[var(--mp-border)] last:border-0 flex items-center gap-3"
                             data-testid={`ws-row-${w.workspace_id}`}
                         >
-                            <span className="w-5 h-5 border border-black" style={{ background: w.color }} />
+                            <span className="w-5 h-5 rounded-[4px] border border-[var(--mp-border-strong)]" style={{ background: w.color }} />
                             <div className="flex-1 font-bold">{w.name}</div>
                             {activeWorkspace?.workspace_id === w.workspace_id ? (
-                                <span className="mp-pill bg-black text-white border-black">ativo</span>
+                                <span className="mp-pill bg-[var(--mp-primary)] text-white border-[var(--mp-primary)]">ativo</span>
                             ) : (
                                 <button
                                     onClick={() => switchWorkspace(w.workspace_id)}

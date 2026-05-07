@@ -67,19 +67,20 @@ export default function AnalyticsPage() {
                     ) : (
                         <ResponsiveContainer width="100%" height={260}>
                             <BarChart data={data.by_provider}>
-                                <CartesianGrid stroke="#0a0a0a22" strokeDasharray="2 2" />
+                                <CartesianGrid stroke="rgba(235,235,235,0.08)" strokeDasharray="2 2" />
                                 <XAxis
                                     dataKey="provider"
                                     tickFormatter={(v) => PROVIDER_LABEL[v] || v}
-                                    tick={{ fontFamily: "IBM Plex Mono", fontSize: 11 }}
-                                    stroke="#0a0a0a"
+                                    tick={{ fontFamily: "JetBrains Mono", fontSize: 11, fill: "#a1a1aa" }}
+                                    stroke="#a1a1aa"
                                 />
-                                <YAxis tick={{ fontFamily: "IBM Plex Mono", fontSize: 11 }} stroke="#0a0a0a" />
+                                <YAxis tick={{ fontFamily: "JetBrains Mono", fontSize: 11, fill: "#a1a1aa" }} stroke="#a1a1aa" />
                                 <Tooltip
-                                    contentStyle={{ border: "1px solid #0a0a0a", borderRadius: 0, background: "#fff" }}
+                                    contentStyle={{ border: "1px solid rgba(235,235,235,0.18)", borderRadius: 8, background: "#18181b", color: "#fafafa" }}
+                                    cursor={{ fill: "rgba(235,235,235,0.04)" }}
                                 />
-                                <Bar dataKey="impressions" fill="#002FA7" />
-                                <Bar dataKey="engagements" fill="#FFCC00" stroke="#0a0a0a" />
+                                <Bar dataKey="impressions" fill="#da291c" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="engagements" fill="#fafafa" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     )}
@@ -92,19 +93,20 @@ export default function AnalyticsPage() {
                     ) : (
                         <ResponsiveContainer width="100%" height={260}>
                             <LineChart data={data.daily}>
-                                <CartesianGrid stroke="#0a0a0a22" strokeDasharray="2 2" />
+                                <CartesianGrid stroke="rgba(235,235,235,0.08)" strokeDasharray="2 2" />
                                 <XAxis
                                     dataKey="date"
-                                    tick={{ fontFamily: "IBM Plex Mono", fontSize: 10 }}
-                                    stroke="#0a0a0a"
+                                    tick={{ fontFamily: "JetBrains Mono", fontSize: 10, fill: "#a1a1aa" }}
+                                    stroke="#a1a1aa"
                                 />
-                                <YAxis tick={{ fontFamily: "IBM Plex Mono", fontSize: 11 }} stroke="#0a0a0a" />
+                                <YAxis tick={{ fontFamily: "JetBrains Mono", fontSize: 11, fill: "#a1a1aa" }} stroke="#a1a1aa" />
                                 <Tooltip
-                                    contentStyle={{ border: "1px solid #0a0a0a", borderRadius: 0, background: "#fff" }}
+                                    contentStyle={{ border: "1px solid rgba(235,235,235,0.18)", borderRadius: 8, background: "#18181b", color: "#fafafa" }}
+                                    cursor={{ stroke: "rgba(235,235,235,0.18)" }}
                                 />
-                                <Line type="monotone" dataKey="impressions" stroke="#002FA7" strokeWidth={2} dot={false} />
-                                <Line type="monotone" dataKey="engagements" stroke="#FF2A2A" strokeWidth={2} dot={false} />
-                                <Line type="monotone" dataKey="clicks" stroke="#00A35C" strokeWidth={2} dot={false} />
+                                <Line type="monotone" dataKey="impressions" stroke="#da291c" strokeWidth={2} dot={false} />
+                                <Line type="monotone" dataKey="engagements" stroke="#fafafa" strokeWidth={2} dot={false} />
+                                <Line type="monotone" dataKey="clicks" stroke="#22c55e" strokeWidth={2} dot={false} />
                             </LineChart>
                         </ResponsiveContainer>
                     )}
@@ -112,7 +114,7 @@ export default function AnalyticsPage() {
             </div>
 
             <section className="mp-card">
-                <div className="p-5 border-b border-black">
+                <div className="p-5 border-b border-[var(--mp-border)]">
                     <div className="label-overline">top posts</div>
                     <h2 className="font-display text-2xl">Maior engajamento</h2>
                 </div>
@@ -125,7 +127,7 @@ export default function AnalyticsPage() {
                         {data.top_posts.map((p, i) => (
                             <li
                                 key={p.post_id}
-                                className="p-5 border-b border-black/10 last:border-0 flex items-start gap-4"
+                                className="p-5 border-b border-[var(--mp-border)] last:border-0 flex items-start gap-4 hover:bg-[var(--mp-surface-2)] transition-colors"
                                 data-testid={`top-post-${i}`}
                             >
                                 <div className="font-display text-3xl w-10">{i + 1}</div>

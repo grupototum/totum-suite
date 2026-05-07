@@ -54,20 +54,20 @@ function WorkspaceSwitcher() {
         <div className="relative">
             <button
                 data-testid="workspace-switcher-btn"
-                className="w-full flex items-center justify-between gap-2 px-3 h-11 border border-black bg-white hover:bg-[var(--mp-secondary)] transition"
+                className="w-full flex items-center justify-between gap-2 px-3 h-11 border border-[var(--mp-border-strong)] bg-[var(--mp-surface)] hover:bg-[var(--mp-surface-2)] rounded-[8px] transition"
                 onClick={() => setOpen(!open)}
             >
                 <span className="flex items-center gap-2 truncate">
                     <span
-                        className="w-3 h-3 border border-black"
-                        style={{ background: activeWorkspace?.color || "#002FA7" }}
+                        className="w-3 h-3 rounded-[2px] border border-[var(--mp-border-strong)]"
+                        style={{ background: activeWorkspace?.color || "#da291c" }}
                     />
                     <span className="font-bold truncate">{activeWorkspace?.name || "Sem workspace"}</span>
                 </span>
                 <Briefcase size={16} />
             </button>
             {open && (
-                <div className="absolute z-30 mt-1 w-full bg-white border border-black mp-shadow-soft">
+                <div className="absolute z-30 mt-1 w-full bg-[var(--mp-surface)] border border-[var(--mp-border-strong)] rounded-[8px] mp-shadow-soft overflow-hidden">
                     <div className="max-h-64 overflow-auto">
                         {workspaces.map((w) => (
                             <button
@@ -77,12 +77,12 @@ function WorkspaceSwitcher() {
                                     await switchWorkspace(w.workspace_id);
                                     setOpen(false);
                                 }}
-                                className={`w-full text-left px-3 py-2 text-sm flex items-center gap-2 border-b border-black/10 hover:bg-[var(--mp-secondary)] ${
-                                    activeWorkspace?.workspace_id === w.workspace_id ? "bg-black text-white" : ""
+                                className={`w-full text-left px-3 py-2 text-sm flex items-center gap-2 border-b border-[var(--mp-border)] hover:bg-[var(--mp-surface-2)] ${
+                                    activeWorkspace?.workspace_id === w.workspace_id ? "bg-[var(--mp-primary)] text-white" : ""
                                 }`}
                             >
                                 <span
-                                    className="w-2.5 h-2.5 border border-black"
+                                    className="w-2.5 h-2.5 rounded-[2px] border border-[var(--mp-border-strong)]"
                                     style={{ background: w.color }}
                                 />
                                 {w.name}
@@ -90,7 +90,7 @@ function WorkspaceSwitcher() {
                         ))}
                     </div>
                     {showNew ? (
-                        <form onSubmit={create} className="p-3 border-t border-black">
+                        <form onSubmit={create} className="p-3 border-t border-[var(--mp-border)]">
                             <input
                                 data-testid="new-workspace-name"
                                 className="mp-input"
@@ -118,7 +118,7 @@ function WorkspaceSwitcher() {
                         <button
                             data-testid="add-workspace-btn"
                             onClick={() => setShowNew(true)}
-                            className="w-full flex items-center gap-2 px-3 py-2 text-sm border-t border-black bg-white hover:bg-[var(--mp-secondary)]"
+                            className="w-full flex items-center gap-2 px-3 py-2 text-sm border-t border-[var(--mp-border)] bg-transparent hover:bg-[var(--mp-surface-2)]"
                         >
                             <Plus size={14} /> Novo workspace
                         </button>
@@ -133,15 +133,15 @@ export default function Layout() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     return (
-        <div className="min-h-screen flex bg-[#fafafa]">
+        <div className="min-h-screen flex bg-[var(--mp-bg)]">
             {/* Sidebar */}
-            <aside className="w-64 border-r border-black bg-white flex flex-col" data-testid="sidebar">
-                <div className="p-5 border-b border-black">
+            <aside className="w-64 border-r border-[var(--mp-border)] bg-[var(--mp-surface)] flex flex-col" data-testid="sidebar">
+                <div className="p-5 border-b border-[var(--mp-border)]">
                     <Link to="/dashboard" className="flex items-center gap-2.5" data-testid="sidebar-logo">
                         <Brand size="md" variant="full" />
                     </Link>
                 </div>
-                <div className="p-3 border-b border-black">
+                <div className="p-3 border-b border-[var(--mp-border)]">
                     <WorkspaceSwitcher />
                 </div>
                 <nav className="flex-1 p-3 space-y-1 overflow-auto">
@@ -151,20 +151,20 @@ export default function Layout() {
                             to={item.to}
                             data-testid={`nav-${item.to.replace("/", "")}`}
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-3 h-10 text-sm border border-transparent ${
+                                `flex items-center gap-3 px-3 h-10 text-sm rounded-[8px] border border-transparent transition-colors ${
                                     isActive
-                                        ? "bg-black text-white border-black"
-                                        : "text-[var(--mp-text)] hover:bg-[var(--mp-secondary)] hover:border-black"
+                                        ? "bg-[var(--mp-primary)] text-white border-[var(--mp-primary)]"
+                                        : "text-[var(--mp-muted)] hover:bg-[var(--mp-surface-2)] hover:text-[var(--mp-text)]"
                                 }`
                             }
                         >
                             <item.icon size={16} />
-                            <span className="font-bold">{item.label}</span>
+                            <span className="font-semibold">{item.label}</span>
                         </NavLink>
                     ))}
                 </nav>
-                <div className="p-3 border-t border-black flex items-center gap-3">
-                    <div className="w-9 h-9 border border-black bg-[var(--mp-secondary)] flex items-center justify-center text-xs font-bold">
+                <div className="p-3 border-t border-[var(--mp-border)] flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full border border-[var(--mp-border-strong)] bg-[var(--mp-primary)] text-white flex items-center justify-center text-xs font-bold">
                         {user?.name?.[0]?.toUpperCase() || "?"}
                     </div>
                     <div className="flex-1 min-w-0">

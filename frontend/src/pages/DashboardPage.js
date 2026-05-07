@@ -59,7 +59,7 @@ export default function DashboardPage() {
                     <div className="label-overline mb-2">olá, {user?.name?.split(" ")[0] || ""}</div>
                     <h1 className="font-display text-5xl tracking-tighter">Painel.</h1>
                     <p className="text-[var(--mp-muted)] mt-2 max-w-xl">
-                        Visão geral de <span className="font-bold text-black">{activeWorkspace.name}</span>.
+                        Visão geral de <span className="font-bold text-[var(--mp-text)]">{activeWorkspace.name}</span>.
                         Publique, agende e acompanhe o desempenho.
                     </p>
                 </div>
@@ -89,9 +89,9 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Recent posts */}
                 <section className="lg:col-span-2 mp-card">
-                    <div className="p-5 border-b border-black flex items-center justify-between">
+                    <div className="p-5 border-b border-[var(--mp-border)] flex items-center justify-between">
                         <h2 className="font-display text-2xl">Posts recentes</h2>
-                        <Link to="/posts" className="text-sm flex items-center gap-1 hover:underline">
+                        <Link to="/posts" className="text-sm flex items-center gap-1 hover:text-[var(--mp-primary)]">
                             Ver todos <ArrowUpRight size={14} />
                         </Link>
                     </div>
@@ -105,7 +105,7 @@ export default function DashboardPage() {
                             {recent.map((p) => (
                                 <li
                                     key={p.post_id}
-                                    className="p-5 border-b border-black/10 last:border-0 flex items-start gap-4"
+                                    className="p-5 border-b border-[var(--mp-border)] last:border-0 flex items-start gap-4 hover:bg-[var(--mp-surface-2)] transition-colors"
                                     data-testid={`recent-post-${p.post_id}`}
                                 >
                                     <span
@@ -113,10 +113,10 @@ export default function DashboardPage() {
                                             p.status === "published"
                                                 ? "bg-[var(--mp-success)] text-white border-[var(--mp-success)]"
                                                 : p.status === "scheduled"
-                                                  ? "bg-[var(--mp-secondary)]"
+                                                  ? "bg-[var(--mp-primary)] text-white border-[var(--mp-primary)]"
                                                   : p.status === "failed"
                                                     ? "bg-[var(--mp-error)] text-white border-[var(--mp-error)]"
-                                                    : "bg-white"
+                                                    : ""
                                         }`}
                                     >
                                         {p.status}
@@ -135,9 +135,9 @@ export default function DashboardPage() {
 
                 {/* Connected accounts */}
                 <section className="mp-card">
-                    <div className="p-5 border-b border-black flex items-center justify-between">
+                    <div className="p-5 border-b border-[var(--mp-border)] flex items-center justify-between">
                         <h2 className="font-display text-2xl">Contas</h2>
-                        <Link to="/accounts" className="text-sm flex items-center gap-1 hover:underline">
+                        <Link to="/accounts" className="text-sm flex items-center gap-1 hover:text-[var(--mp-primary)]">
                             Gerenciar <ArrowUpRight size={14} />
                         </Link>
                     </div>
@@ -150,9 +150,9 @@ export default function DashboardPage() {
                             {accounts.map((a) => (
                                 <li
                                     key={a.account_id}
-                                    className="p-4 border-b border-black/10 last:border-0 flex items-center gap-3"
+                                    className="p-4 border-b border-[var(--mp-border)] last:border-0 flex items-center gap-3"
                                 >
-                                    <span className="w-9 h-9 border border-black bg-[var(--mp-secondary)] flex items-center justify-center text-xs font-bold uppercase">
+                                    <span className="w-9 h-9 rounded-full border border-[var(--mp-border-strong)] bg-[var(--mp-primary)] text-white flex items-center justify-center text-xs font-bold uppercase">
                                         {a.provider[0]}
                                     </span>
                                     <div className="flex-1 min-w-0">

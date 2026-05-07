@@ -54,7 +54,7 @@ export default function PostsPage() {
                         key={s.id}
                         onClick={() => setFilter(s.id)}
                         data-testid={`filter-${s.id}`}
-                        className={`mp-pill ${filter === s.id ? "bg-black text-white border-black" : "bg-white"}`}
+                        className={`mp-pill ${filter === s.id ? "bg-[var(--mp-primary)] text-white border-[var(--mp-primary)]" : ""}`}
                     >
                         {s.label}
                     </button>
@@ -68,7 +68,7 @@ export default function PostsPage() {
                     <div className="p-10 text-center text-[var(--mp-muted)]">Nenhum post encontrado.</div>
                 ) : (
                     <table className="w-full text-sm">
-                        <thead className="bg-black text-white">
+                        <thead className="bg-[var(--mp-surface-2)] text-[var(--mp-muted)] border-b border-[var(--mp-border)]">
                             <tr>
                                 <th className="text-left p-3 font-bold uppercase tracking-wider text-xs">Status</th>
                                 <th className="text-left p-3 font-bold uppercase tracking-wider text-xs">Conteúdo</th>
@@ -81,7 +81,7 @@ export default function PostsPage() {
                             {posts.map((p) => (
                                 <tr
                                     key={p.post_id}
-                                    className="border-t border-black/10 hover:bg-[#fafafa]"
+                                    className="border-t border-[var(--mp-border)] hover:bg-[var(--mp-surface-2)] transition-colors"
                                     data-testid={`post-row-${p.post_id}`}
                                 >
                                     <td className="p-3">
@@ -90,10 +90,10 @@ export default function PostsPage() {
                                                 p.status === "published"
                                                     ? "bg-[var(--mp-success)] text-white border-[var(--mp-success)]"
                                                     : p.status === "scheduled"
-                                                      ? "bg-[var(--mp-secondary)]"
+                                                      ? "bg-[var(--mp-primary)] text-white border-[var(--mp-primary)]"
                                                       : p.status === "failed"
                                                         ? "bg-[var(--mp-error)] text-white border-[var(--mp-error)]"
-                                                        : "bg-white"
+                                                        : ""
                                             }`}
                                         >
                                             {p.status}

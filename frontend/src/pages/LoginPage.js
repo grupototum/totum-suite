@@ -48,9 +48,9 @@ export default function LoginPage({ mode = "login" }) {
     };
 
     return (
-        <div className="min-h-screen grid lg:grid-cols-2 bg-[#fafafa]" data-testid="login-page">
+        <div className="min-h-screen grid lg:grid-cols-2 bg-[var(--mp-bg)]" data-testid="login-page">
             {/* Left: brand panel */}
-            <div className="relative hidden lg:flex flex-col justify-between border-r border-black overflow-hidden">
+            <div className="relative hidden lg:flex flex-col justify-between border-r border-[var(--mp-border)] overflow-hidden bg-[var(--mp-bg)]">
                 <div
                     className="absolute inset-0 opacity-[0.85]"
                     style={{
@@ -64,7 +64,7 @@ export default function LoginPage({ mode = "login" }) {
                     <Brand size="lg" variant="full" />
                 </div>
                 <div className="relative p-10">
-                    <div className="mp-card p-6 max-w-sm bg-white">
+                    <div className="mp-card p-6 max-w-sm">
                         <div className="label-overline mb-2">manifesto</div>
                         <h2 className="font-display text-2xl leading-tight mb-3">
                             Planeje. Componha. Publique.<br />
@@ -98,13 +98,13 @@ export default function LoginPage({ mode = "login" }) {
                             : "Comece a publicar em minutos. Sem cartão de crédito."}
                     </p>
 
-                    <div className="grid grid-cols-2 gap-0 mb-6 border border-black">
+                    <div className="grid grid-cols-2 gap-0 mb-6 border border-[var(--mp-border-strong)] rounded-[8px] overflow-hidden">
                         <button
                             type="button"
                             data-testid="tab-login-btn"
                             onClick={() => setTab("login")}
                             className={`h-10 text-sm font-bold uppercase tracking-wider ${
-                                tab === "login" ? "bg-black text-white" : "bg-white text-black"
+                                tab === "login" ? "bg-[var(--mp-primary)] text-white" : "bg-transparent text-[var(--mp-muted)] hover:text-[var(--mp-text)]"
                             }`}
                         >
                             Entrar
@@ -113,8 +113,8 @@ export default function LoginPage({ mode = "login" }) {
                             type="button"
                             data-testid="tab-register-btn"
                             onClick={() => setTab("register")}
-                            className={`h-10 text-sm font-bold uppercase tracking-wider border-l border-black ${
-                                tab === "register" ? "bg-black text-white" : "bg-white text-black"
+                            className={`h-10 text-sm font-bold uppercase tracking-wider border-l border-[var(--mp-border-strong)] ${
+                                tab === "register" ? "bg-[var(--mp-primary)] text-white" : "bg-transparent text-[var(--mp-muted)] hover:text-[var(--mp-text)]"
                             }`}
                         >
                             Cadastrar
@@ -185,9 +185,9 @@ export default function LoginPage({ mode = "login" }) {
                     </form>
 
                     <div className="my-6 flex items-center gap-3">
-                        <div className="flex-1 h-px bg-black" />
+                        <div className="flex-1 h-px bg-[var(--mp-border)]" />
                         <span className="label-overline">ou</span>
-                        <div className="flex-1 h-px bg-black" />
+                        <div className="flex-1 h-px bg-[var(--mp-border)]" />
                     </div>
 
                     <button

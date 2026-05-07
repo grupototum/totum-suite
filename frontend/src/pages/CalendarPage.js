@@ -97,9 +97,9 @@ export default function CalendarPage() {
             </header>
 
             <div className="mp-card overflow-hidden">
-                <div className="grid grid-cols-7 border-b border-black">
+                <div className="grid grid-cols-7 border-b border-[var(--mp-border)]">
                     {WEEKDAYS.map((w) => (
-                        <div key={w} className="p-3 label-overline border-r border-black last:border-0">
+                        <div key={w} className="p-3 label-overline border-r border-[var(--mp-border)] last:border-0">
                             {w}
                         </div>
                     ))}
@@ -115,9 +115,9 @@ export default function CalendarPage() {
                                 key={k}
                                 onClick={() => setSelectedDay(k)}
                                 data-testid={`day-${k}`}
-                                className={`min-h-[120px] border-r border-b border-black/20 last:border-r-0 p-2 cursor-pointer ${
-                                    inMonth ? "bg-white" : "bg-[#f4f4f4]"
-                                } ${today ? "outline outline-2 outline-[var(--mp-primary)] outline-offset-[-2px]" : ""}`}
+                                className={`min-h-[120px] border-r border-b border-[var(--mp-border)] last:border-r-0 p-2 cursor-pointer transition-colors ${
+                                    inMonth ? "bg-[var(--mp-surface)] hover:bg-[var(--mp-surface-2)]" : "bg-[var(--mp-bg)]"
+                                } ${today ? "ring-1 ring-[var(--mp-primary)] ring-inset" : ""}`}
                             >
                                 <div className="flex items-center justify-between">
                                     <span className={`text-sm font-bold ${inMonth ? "" : "text-[var(--mp-muted)]"}`}>
@@ -133,12 +133,12 @@ export default function CalendarPage() {
                                     {items.slice(0, 2).map((p) => (
                                         <div
                                             key={p.post_id}
-                                            className={`text-xs truncate border border-black px-1 py-0.5 ${
+                                            className={`text-xs truncate border border-[var(--mp-border-strong)] rounded-[4px] px-1 py-0.5 ${
                                                 p.status === "published"
-                                                    ? "bg-[var(--mp-success)] text-white"
+                                                    ? "bg-[var(--mp-success)] text-white border-[var(--mp-success)]"
                                                     : p.status === "scheduled"
-                                                      ? "bg-[var(--mp-secondary)]"
-                                                      : "bg-white"
+                                                      ? "bg-[var(--mp-primary)] text-white border-[var(--mp-primary)]"
+                                                      : "bg-[var(--mp-surface-2)]"
                                             }`}
                                             title={p.content}
                                         >
@@ -167,7 +167,7 @@ export default function CalendarPage() {
                     <div className="label-overline mb-2">{selectedDay}</div>
                     <ul className="space-y-2">
                         {byDay[selectedDay].map((p) => (
-                            <li key={p.post_id} className="border border-black p-3">
+                            <li key={p.post_id} className="border border-[var(--mp-border-strong)] rounded-[8px] p-3">
                                 <div className="text-xs font-mono mb-1">
                                     {new Date(p.scheduled_at || p.published_at).toLocaleString("pt-BR")} · {p.status}
                                 </div>

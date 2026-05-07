@@ -181,8 +181,8 @@ export default function ComposerPage() {
                                     data-testid={`account-toggle-${a.account_id}`}
                                     className={`mp-pill ${
                                         selected.has(a.account_id)
-                                            ? "bg-black text-white border-black"
-                                            : "bg-white"
+                                            ? "bg-[var(--mp-primary)] text-white border-[var(--mp-primary)]"
+                                            : ""
                                     }`}
                                 >
                                     @{a.handle}
@@ -218,11 +218,11 @@ export default function ComposerPage() {
                         <div className="label-overline mb-2">mídia (URLs)</div>
                         <div className="flex flex-wrap gap-2">
                             {media.map((u, i) => (
-                                <div key={`${u}-${i}`} className="mp-card relative w-24 h-24 overflow-hidden">
+                                <div key={`${u}-${i}`} className="relative w-24 h-24 overflow-hidden rounded-[8px] border border-[var(--mp-border-strong)]">
                                     <img src={u} alt="" className="w-full h-full object-cover" />
                                     <button
                                         onClick={() => setMedia(media.filter((_, idx) => idx !== i))}
-                                        className="absolute top-0 right-0 w-6 h-6 bg-black text-white flex items-center justify-center"
+                                        className="absolute top-1 right-1 w-6 h-6 rounded-full bg-[var(--mp-error)] text-white flex items-center justify-center hover:opacity-90"
                                         data-testid={`remove-media-${i}`}
                                     >
                                         <X size={14} />
@@ -232,7 +232,7 @@ export default function ComposerPage() {
                             <button
                                 onClick={addMedia}
                                 data-testid="add-media-btn"
-                                className="w-24 h-24 border border-black bg-white hover:bg-[var(--mp-secondary)] flex flex-col items-center justify-center text-xs gap-1"
+                                className="w-24 h-24 rounded-[8px] border border-dashed border-[var(--mp-border-strong)] bg-[var(--mp-surface)] hover:bg-[var(--mp-surface-2)] hover:border-[var(--mp-primary)] flex flex-col items-center justify-center text-xs gap-1 text-[var(--mp-muted)] transition"
                             >
                                 <ImageIcon size={18} /> Adicionar
                             </button>
@@ -258,7 +258,7 @@ export default function ComposerPage() {
                                     </button>
                                 </PopoverTrigger>
                                 <PopoverContent
-                                    className="w-auto p-0 mp-card mp-shadow-soft border-black"
+                                    className="w-auto p-0 mp-card mp-shadow-soft"
                                     align="start"
                                     data-testid="composer-schedule-popover"
                                 >
@@ -294,7 +294,7 @@ export default function ComposerPage() {
                     {err && <div className="border border-[var(--mp-error)] text-[var(--mp-error)] p-3 text-sm" data-testid="composer-error">{err}</div>}
                     {ok && <div className="border border-[var(--mp-success)] text-[var(--mp-success)] p-3 text-sm" data-testid="composer-ok">{ok}</div>}
 
-                    <div className="flex flex-wrap gap-2 pt-2 border-t border-black/10">
+                    <div className="flex flex-wrap gap-2 pt-2 border-t border-[var(--mp-border)]">
                         <button
                             onClick={() => submit("draft")}
                             disabled={saving}
@@ -378,7 +378,7 @@ export default function ComposerPage() {
                         {variations.length > 0 && (
                             <ul className="mt-4 space-y-3">
                                 {variations.map((v, i) => (
-                                    <li key={`${i}-${v.caption?.slice(0, 24)}`} className="border border-black p-3" data-testid={`ai-variation-${i}`}>
+                                    <li key={`${i}-${v.caption?.slice(0, 24)}`} className="border border-[var(--mp-border-strong)] rounded-[8px] p-3 bg-[var(--mp-surface-2)]" data-testid={`ai-variation-${i}`}>
                                         <p className="text-sm leading-relaxed mb-2">{v.caption}</p>
                                         <div className="text-xs text-[var(--mp-primary)] font-mono mb-2">
                                             {(v.hashtags || []).join(" ")}
@@ -404,8 +404,8 @@ export default function ComposerPage() {
                             </p>
                         )}
                         {selectedNetworks.map((n) => (
-                            <div key={n} className="border border-black bg-white p-3 mb-3 last:mb-0">
-                                <div className="text-xs font-bold uppercase tracking-wider mb-2">
+                            <div key={n} className="border border-[var(--mp-border-strong)] rounded-[8px] bg-[var(--mp-surface-2)] p-3 mb-3 last:mb-0">
+                                <div className="text-xs font-bold uppercase tracking-wider mb-2 text-[var(--mp-muted)]">
                                     {NETWORKS.find((x) => x.id === n)?.label}
                                 </div>
                                 <p className="text-sm whitespace-pre-wrap break-words">
@@ -417,7 +417,7 @@ export default function ComposerPage() {
                                     <img
                                         src={media[0]}
                                         alt=""
-                                        className="mt-2 w-full max-h-40 object-cover border border-black"
+                                        className="mt-2 w-full max-h-40 object-cover rounded-[6px] border border-[var(--mp-border-strong)]"
                                     />
                                 )}
                             </div>

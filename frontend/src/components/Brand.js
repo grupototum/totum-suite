@@ -30,7 +30,7 @@ export default function Brand({ size = "md", variant = "full", className = "" })
     if (variant === "logo") {
         return (
             <div
-                className={`inline-flex items-center justify-center bg-black border border-black ${s.box} aspect-square overflow-hidden ${className}`}
+                className={`inline-flex items-center justify-center bg-black border border-[var(--mp-border-strong)] rounded-[8px] ${s.box} aspect-square overflow-hidden ${className}`}
                 data-testid="brand-logo"
             >
                 <img src="/logo.png" alt="totum" className="h-full w-auto" />
@@ -41,7 +41,7 @@ export default function Brand({ size = "md", variant = "full", className = "" })
     // "full" — black panel containing the wordmark image at correct aspect ratio
     return (
         <div
-            className={`inline-flex items-center bg-black border border-black px-3 py-1.5 ${className}`}
+            className={`inline-flex items-center bg-black border border-[var(--mp-border-strong)] rounded-[8px] px-3 py-1.5 ${className}`}
             data-testid="brand"
         >
             <img src="/logo.png" alt="totum" className={`${s.box} w-auto`} style={{ objectFit: "contain" }} />
