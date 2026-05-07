@@ -28,7 +28,7 @@ export default function AccountsPage() {
     }, [activeWorkspace]);
 
     useEffect(() => {
-        load();
+        load().catch(() => setAccounts([]));
     }, [load]);
 
     const connect = async (e) => {

@@ -28,7 +28,9 @@ export default function AnalyticsPage() {
         if (!activeWorkspace) return;
         api.get("/analytics/summary", {
             params: { workspace_id: activeWorkspace.workspace_id },
-        }).then((r) => setData(r.data));
+        })
+            .then((r) => setData(r.data))
+            .catch(() => setData({ totals: {}, by_provider: [], daily: [], top_posts: [] }));
     }, [activeWorkspace]);
 
     if (!data) return <div className="p-8" data-testid="analytics-loading">Carregando…</div>;

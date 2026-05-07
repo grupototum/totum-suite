@@ -24,11 +24,17 @@ export default function DashboardPage() {
             api.get("/analytics/summary", { params: { workspace_id: ws } }),
             api.get("/social-accounts", { params: { workspace_id: ws } }),
             api.get("/posts", { params: { workspace_id: ws } }),
-        ]).then(([s, a, p]) => {
-            setSummary(s.data);
-            setAccounts(a.data);
-            setRecent(p.data.slice(0, 5));
-        });
+        ])
+            .then(([s, a, p]) => {
+                setSummary(s.data);
+                setAccounts(a.data);
+                setRecent(p.data.slice(0, 5));
+            })
+            .catch(() => {
+                setSummary(null);
+                setAccounts([]);
+                setRecent([]);
+            });
     }, [activeWorkspace]);
 
     if (!activeWorkspace) {

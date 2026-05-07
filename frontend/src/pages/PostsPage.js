@@ -28,7 +28,10 @@ export default function PostsPage() {
     }, [activeWorkspace, filter]);
 
     useEffect(() => {
-        load();
+        load().catch(() => {
+            setPosts([]);
+            setLoading(false);
+        });
     }, [load]);
 
     const publish = async (id) => {

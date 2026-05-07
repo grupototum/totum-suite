@@ -44,7 +44,9 @@ export default function CalendarPage() {
                 start: gridStart.toISOString(),
                 end: gridEnd.toISOString(),
             },
-        }).then((r) => setPosts(r.data));
+        })
+            .then((r) => setPosts(r.data))
+            .catch(() => setPosts([]));
     }, [activeWorkspace, gridStart, gridEnd]);
 
     const byDay = useMemo(() => {
