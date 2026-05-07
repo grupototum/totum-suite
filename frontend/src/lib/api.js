@@ -9,6 +9,17 @@ export const api = axios.create({
     headers: { "Content-Type": "application/json" },
 });
 
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (!error.response) {
+            // Network error — backend is unreachable
+            error.message = "Backend não está acessível. Verifique se a API está rodando e se a variável REACT_APP_BACKEND_URL está configurada corretamente no Vercel.";
+        }
+        return Promise.reject(error);
+    }
+);
+
 export function formatApiError(detail) {
     if (detail == null) return "Algo deu errado. Tente novamente.";
     if (typeof detail === "string") return detail;
