@@ -21,47 +21,109 @@ const MOCK_WORKSPACES = [
 ];
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(MOCK_USER); // sempre logado (modo demo)
-    const [workspaces, setWorkspaces] = useState(MOCK_WORKSPACES);
-    const [activeWorkspace, setActiveWorkspace] = useState(MOCK_WORKSPACES[0]);
+    const [user, setUser] = useState(null); // null = loading
+    const [workspaces, setWorkspaces] = useState([]);
+    const [activeWorkspace, setActiveWorkspace] = useState(null);
+    const [isDemo, setIsDemo] = useState(false);
 
-    const refreshWorkspaces = useCallback(async () => {
-        return MOCK_WORKSPACES;
-    }, []);
-
-    const checkAuth = useCallback(async () => {
-        // Demo mode: sempre mantém usuário mock
+    const fallbackToDemo = useCallback(() => {
         setUser(MOCK_USER);
         setWorkspaces(MOCK_WORKSPACES);
         setActiveWorkspace(MOCK_WORKSPACES[0]);
+        setIsDemo(true);
     }, []);
+
+    const refreshWorkspaces = useCallback(async () => {
+        if (isDemo) return MOCK_WORKSPACES;
+        try {
+            const { data } = await api.get("/workspaces");
+            setWorkspaces(data);
+            return data;
+        } catch {
+            return [];
+        }
+    }, [isDemo]);
+
+    const checkAuth = useCallback(async () => {
+        // Skip auto-check if returning from Google OAuth
+        if (typeof window !== "undefined" && window.location.hash?.includes("session_id=")) {
+            return;
+        }
+        try {
+            const { data } = await api.get("/auth/me");
+            setUser(data);
+            const ws = await api.get("/workspaces");
+            setWorkspaces(ws.data);
+            const active = ws.data.find((w) => w.workspace_id === data.active_workspace_id) || ws.data[0] || null;
+            setActiveWorkspace(active);
+            setIsDemo(false);
+        } catch {
+            fallbackToDemo();
+        }
+    }, [fallbackToDemo]);
 
     useEffect(() => {
         checkAuth();
     }, [checkAuth]);
 
-    const login = async () => {
-        setUser(MOCK_USER);
-        setWorkspaces(MOCK_WORKSPACES);
-        setActiveWorkspace(MOCK_WORKSPACES[0]);
-        return MOCK_USER;
+    const login = async (email, password) => {
+        try {
+            const { data } = await api.post("/auth/login", { email, password });
+            setUser(data);
+            const ws = await api.get("/workspaces");
+            setWorkspaces(ws.data);
+            const active = ws.data.find((w) => w.workspace_id === data.active_workspace_id) || ws.data[0] || null;
+            setActiveWorkspace(active);
+            setIsDemo(false);
+            return data;
+        } catch {
+            fallbackToDemo();
+            return MOCK_USER;
+        }
     };
 
-    const register = async () => {
-        setUser(MOCK_USER);
-        setWorkspaces(MOCK_WORKSPACES);
-        setActiveWorkspace(MOCK_WORKSPACES[0]);
-        return MOCK_USER;
+    const register = async (email, password, name) => {
+        try {
+            const { data } = await api.post("/auth/register", { email, password, name });
+            setUser(data);
+            const ws = await api.get("/workspaces");
+            setWorkspaces(ws.data);
+            const active = ws.data.find((w) => w.workspace_id === data.active_workspace_id) || ws.data[0] || null;
+            setActiveWorkspace(active);
+            setIsDemo(false);
+            return data;
+        } catch {
+            fallbackToDemo();
+            return MOCK_USER;
+        }
     };
 
     const logout = async () => {
-        // Em demo mode, não desloga de verdade — apenas recarrega
-        window.location.reload();
+        try {
+            await api.post("/auth/logout");
+        } catch {
+            // Ignora erro de logout
+        }
+        setUser(false);
+        setWorkspaces([]);
+        setActiveWorkspace(null);
+        setIsDemo(false);
     };
 
     const switchWorkspace = async (workspace_id) => {
-        const ws = workspaces.find((w) => w.workspace_id === workspace_id) || workspaces[0] || null;
-        setActiveWorkspace(ws);
+        if (isDemo) {
+            const ws = workspaces.find((w) => w.workspace_id === workspace_id) || workspaces[0] || null;
+            setActiveWorkspace(ws);
+            return;
+        }
+        try {
+            const { data } = await api.post(`/workspaces/${workspace_id}/activate`);
+            setUser(data);
+            const ws = workspaces.find((w) => w.workspace_id === workspace_id);
+            setActiveWorkspace(ws || null);
+        } catch {
+            // Mantém workspace atual em caso de erro
+        }
     };
 
     return (
@@ -78,6 +140,7 @@ export function AuthProvider({ children }) {
                 logout,
                 switchWorkspace,
                 checkAuth,
+                isDemo,
             }}
         >
             {children}
