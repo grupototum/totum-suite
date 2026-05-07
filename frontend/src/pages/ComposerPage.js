@@ -202,7 +202,7 @@ export default function ComposerPage() {
                         <div className="label-overline mb-2">mídia (URLs)</div>
                         <div className="flex flex-wrap gap-2">
                             {media.map((u, i) => (
-                                <div key={i} className="mp-card relative w-24 h-24 overflow-hidden">
+                                <div key={`${u}-${i}`} className="mp-card relative w-24 h-24 overflow-hidden">
                                     <img src={u} alt="" className="w-full h-full object-cover" />
                                     <button
                                         onClick={() => setMedia(media.filter((_, idx) => idx !== i))}
@@ -323,7 +323,7 @@ export default function ComposerPage() {
                         {variations.length > 0 && (
                             <ul className="mt-4 space-y-3">
                                 {variations.map((v, i) => (
-                                    <li key={i} className="border border-black p-3" data-testid={`ai-variation-${i}`}>
+                                    <li key={`${i}-${v.caption?.slice(0, 24)}`} className="border border-black p-3" data-testid={`ai-variation-${i}`}>
                                         <p className="text-sm leading-relaxed mb-2">{v.caption}</p>
                                         <div className="text-xs text-[var(--mp-primary)] font-mono mb-2">
                                             {(v.hashtags || []).join(" ")}

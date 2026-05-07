@@ -14,7 +14,7 @@ import httpx
 from datetime import datetime, timezone, timedelta
 from typing import List, Optional, Literal
 
-from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response, status
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, EmailStr, Field, ConfigDict
@@ -573,14 +573,17 @@ async def publish_now(post_id: str, user: dict = Depends(get_current_user)):
     post = await db.posts.find_one({"post_id": post_id, "user_id": user["user_id"]}, {"_id": 0})
     if not post:
         raise HTTPException(status_code=404, detail="Post não encontrado")
-    import random
+    # secrets is used here (instead of random) for cryptographic-grade RNG
+    # even though these are non-sensitive mock metrics — keeps the codebase clean.
+    def rand_in(lo: int, hi: int) -> int:
+        return secrets.randbelow(hi - lo + 1) + lo
     metrics = {
-        "impressions": random.randint(120, 5000),
-        "engagements": random.randint(10, 800),
-        "clicks": random.randint(2, 250),
-        "likes": random.randint(5, 450),
-        "shares": random.randint(0, 80),
-        "comments": random.randint(0, 60),
+        "impressions": rand_in(120, 5000),
+        "engagements": rand_in(10, 800),
+        "clicks": rand_in(2, 250),
+        "likes": rand_in(5, 450),
+        "shares": rand_in(0, 80),
+        "comments": rand_in(0, 60),
     }
     update = {
         "status": "published",
@@ -650,17 +653,17 @@ async def analytics_summary(workspace_id: str, user: dict = Depends(get_current_
 
     # top posts
     top = sorted(
-        [p for p in posts if p.get("status") == "published"],
+        [post for post in posts if post.get("status") == "published"],
         key=lambda x: (x.get("metrics") or {}).get("engagements", 0),
         reverse=True,
     )[:5]
     top_clean = []
-    for p in top:
+    for post in top:
         top_clean.append({
-            "post_id": p["post_id"],
-            "content": p["content"][:140],
-            "metrics": p.get("metrics", {}),
-            "published_at": p.get("published_at"),
+            "post_id": post["post_id"],
+            "content": post["content"][:140],
+            "metrics": post.get("metrics", {}),
+            "published_at": post.get("published_at"),
         })
 
     return {
@@ -669,9 +672,9 @@ async def analytics_summary(workspace_id: str, user: dict = Depends(get_current_
         "daily": sorted(daily.values(), key=lambda x: x["date"]),
         "top_posts": top_clean,
         "post_count": len(posts),
-        "published_count": sum(1 for p in posts if p.get("status") == "published"),
-        "scheduled_count": sum(1 for p in posts if p.get("status") == "scheduled"),
-        "draft_count": sum(1 for p in posts if p.get("status") == "draft"),
+        "published_count": sum(1 for post in posts if post.get("status") == "published"),
+        "scheduled_count": sum(1 for post in posts if post.get("status") == "scheduled"),
+        "draft_count": sum(1 for post in posts if post.get("status") == "draft"),
     }
 
 # -------- AI Suggest ----------

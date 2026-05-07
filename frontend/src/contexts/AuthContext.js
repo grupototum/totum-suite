@@ -61,7 +61,11 @@ export function AuthProvider({ children }) {
     const logout = async () => {
         try {
             await api.post("/auth/logout");
-        } catch {}
+        } catch (err) {
+            // Logout failures (e.g., expired session) are non-blocking,
+            // but we still log to aid debugging.
+            console.warn("Logout request failed; clearing client state anyway.", err);
+        }
         setUser(false);
         setWorkspaces([]);
         setActiveWorkspace(null);

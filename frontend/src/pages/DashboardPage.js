@@ -76,7 +76,7 @@ export default function DashboardPage() {
             {/* KPI cards */}
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {cards.map((c, i) => (
-                    <div key={i} className="mp-card p-5" data-testid={`kpi-card-${i}`}>
+                    <div key={c.label} className="mp-card p-5" data-testid={`kpi-card-${i}`}>
                         <div className="flex items-start justify-between">
                             <div className="label-overline text-[var(--mp-muted)]">{c.label}</div>
                             <c.icon size={18} />

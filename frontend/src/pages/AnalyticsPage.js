@@ -52,7 +52,7 @@ export default function AnalyticsPage() {
 
             <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                 {cards.map((c, i) => (
-                    <div key={i} className="mp-card p-4" data-testid={`metric-${i}`}>
+                    <div key={c.label} className="mp-card p-4" data-testid={`metric-${i}`}>
                         <div className="label-overline text-[var(--mp-muted)]">{c.label}</div>
                         <div className="font-display text-2xl mt-1">{c.v.toLocaleString("pt-BR")}</div>
                     </div>

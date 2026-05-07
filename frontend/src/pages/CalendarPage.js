@@ -112,7 +112,7 @@ export default function CalendarPage() {
                         const items = byDay[k] || [];
                         return (
                             <div
-                                key={i}
+                                key={k}
                                 onClick={() => setSelectedDay(k)}
                                 data-testid={`day-${k}`}
                                 className={`min-h-[120px] border-r border-b border-black/20 last:border-r-0 p-2 cursor-pointer ${
