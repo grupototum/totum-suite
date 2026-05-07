@@ -1,0 +1,69 @@
+{
+  "theme": "Light",
+  "archetype": "Archetype 4: Swiss & High-Contrast",
+  "mood": "Objective, Functional, Bold, Minimalist, Efficient",
+  "colors": {
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text_primary": "#0A0A0A",
+    "text_secondary": "#525252",
+    "primary": "#002FA7",
+    "secondary": "#FFCC00",
+    "border": "#0A0A0A",
+    "error": "#FF2A2A",
+    "success": "#00A35C"
+  },
+  "typography": {
+    "heading_font": "Cabinet Grotesk",
+    "body_font": "IBM Plex Sans",
+    "rules": {
+      "headings": "Bold/Black weight, tracking-tight or tracking-tighter. Never center unless context demands (e.g., empty state). No generic sans-serifs.",
+      "body": "Regular weight, leading-relaxed for long text, tracking-normal.",
+      "labels": "Uppercase, tracking-[0.2em], text-xs, font-bold."
+    },
+    "import_instructions": "Import 'Cabinet Grotesk' from Fontshare CDN (https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,500,700,400,900&display=swap) and 'IBM Plex Sans' from Google Fonts."
+  },
+  "spacing_and_layout": {
+    "philosophy": "Generous Spacing, Swiss Grid with Technical precision",
+    "padding": "p-6 to p-12 for major containers. Avoid cramped content.",
+    "grid": "Strict grid hierarchy. Dashboard uses Control Room layout (grid-cols-4 or grid-cols-12), tight gap-4 or gap-6 for data widgets, but wide outer margins.",
+    "border_radius": "rounded-none or minimal rounded-sm (2px)",
+    "borders": "1px solid #0A0A0A on all cards, inputs, and containers to create a 'Grid Borders / Technical / Brutalist' look."
+  },
+  "components": {
+    "cards": "Flat background (bg-white), 1px solid black border, sharp corners. On hover for interactive cards: -translate-y-1, solid black shadow (shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]).",
+    "buttons": "Primary buttons: bg-[#002FA7] text-white. Secondary buttons: bg-white text-black border border-black. Sharp corners, bold text. Hover: Solid offset shadow.",
+    "inputs": "Shadcn components (Form, Input, Select, Calendar, Dialog). Heavily customized with 1px solid black border, rounded-none. Focus: ring-2 ring-[#002FA7] ring-offset-0.",
+    "navigation": "Sidebar or Topbar with solid white background, distinct 1px black border separating from main content.",
+    "charts": "Shadcn charts (Recharts) with crisp lines, strictly 2D (no gradients or 3D effects). Use primary (#002FA7) and secondary (#FFCC00) colors.",
+    "icons": "lucide-react (stroke-width 1.5 or 2)."
+  },
+  "image_urls": [
+    {
+      "url": "https://images.unsplash.com/photo-1642257834579-eee89ff3e9fd?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwyfHxwcm9mZXNzaW9uYWwlMjBjb25maWRlbnQlMjBhdmF0YXIlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzgxMjY2OTh8MA&ixlib=rb-4.1.0&q=85",
+      "category": "user_avatar",
+      "description": "User profile avatar for dashboard header/settings"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1649783467317-810564b3df8a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxNzV8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMG1pbmltYWwlMjBnZW9tZXRyaWMlMjBwYXR0ZXJuJTIwbGF5b3V0fGVufDB8fHx8MTc3ODEyNjY5OHww&ixlib=rb-4.1.0&q=85",
+      "category": "login_background",
+      "description": "Abstract minimal geometric background for the login/auth split layout"
+    }
+  ],
+  "accessibility_and_testing": {
+    "contrast": "Ensure text meets APCA standards. High contrast Black-on-White or White-on-Blue combinations.",
+    "data_testid": "MANDATORY: All interactive elements and key informational elements MUST include a data-testid attribute (e.g., data-testid='login-submit-button', data-testid='post-composer-textarea', data-testid='connect-twitter-btn')."
+  },
+  "instructions_to_main_agent": [
+    "You are building a Mixpost clone (SaaS app) with a Portuguese (Brazilian) interface.",
+    "Do NOT use gradients, purple, violet, or teal.",
+    "Adhere to the Archetype 4 (Swiss & High-Contrast) design rules.",
+    "Use raw HTML/Tailwind for structural layouts and Shadcn for complex interactives (Forms, Select, Dialogs, Tabs, Charts).",
+    "Implement a Neo-Brutalist/Swiss style: 1px solid borders, sharp corners, solid offset shadows on hover for interactive elements.",
+    "Ensure the dashboard feels like a 'Control Room' - utilize screen real estate efficiently but maintain clear visual separation through solid borders.",
+    "Mock the social media connections (Twitter, Facebook, Instagram, LinkedIn) as requested.",
+    "All interactive elements MUST have data-testid attributes for testing.",
+    "Follow 'Mobile-first responsive' layout principles.",
+    "Use Shadcn's specific calendar for the date picker (schedule posts) rather than HTML input type='date'."
+  ]
+}
