@@ -37,6 +37,10 @@ logger = logging.getLogger("mixpost")
 app = FastAPI(title="Mixpost Clone API")
 api = APIRouter(prefix="/api")
 
+@api.get("/health")
+async def health():
+    return {"status": "ok"}
+
 # -------- Helpers ----------
 def now_utc() -> datetime:
     return datetime.now(timezone.utc)

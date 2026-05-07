@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: totum-suite-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: MONGO_URL
+        sync: false
+      - key: DB_NAME
+        value: totum_suite
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: ADMIN_EMAIL
+        value: admin@mixpost.app
+      - key: ADMIN_PASSWORD
+        value: admin123
+      - key: TEST_USER_EMAIL
+        value: user@mixpost.app
+      - key: TEST_USER_PASSWORD
+        value: user123
+      - key: EMERGENT_LLM_KEY
+        value: ""
+    healthCheckPath: /api/health
