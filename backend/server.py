@@ -20,7 +20,11 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, EmailStr, Field, ConfigDict
 
 # -------- LLM (Emergent) ----------
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+try:
+    from emergentintegrations.llm.chat import LlmChat, UserMessage
+except Exception:
+    LlmChat = None
+    UserMessage = None
 
 # -------- Setup ----------
 mongo_url = os.environ["MONGO_URL"]
@@ -704,6 +708,8 @@ ALLOWED_MODELS = {
 
 @api.post("/ai/suggest")
 async def ai_suggest(body: AISuggestIn, user: dict = Depends(get_current_user)):
+    if LlmChat is None or UserMessage is None:
+        raise HTTPException(status_code=503, detail="Funcionalidade de IA não disponível — pacote emergentintegrations não instalado.")
     if not EMERGENT_LLM_KEY:
         raise HTTPException(status_code=500, detail="LLM key não configurada")
     provider, model_id = ALLOWED_MODELS.get(body.model or "gpt-4o-mini", ALLOWED_MODELS["gpt-4o-mini"])
