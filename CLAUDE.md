@@ -1,4 +1,19 @@
-# CLAUDE.md — Contexto para Claude Code
+# CLAUDE.md — Totum-Suite
+
+**Versão:** 2.0
+**Atualizado:** 2026-05-10
+**Nível:** [ ] LP/Site  [ ] MVP  [x] Teste  [ ] Produção
+**Sistema:** Vibe Coding Totum v3.0
+
+---
+
+## PERGUNTA-GATILHO
+
+> **Nível atual: TESTE** — backend não deployado, AuthContext em modo demo.  
+> Toda mudança passa por: Revisão Pré-Produção → Raio-X → Teste → Deploy  
+> **P0 BLOQUEADORES:** deployar backend Render + reverter modo demo AuthContext
+
+---
 
 ## O que é este projeto
 
@@ -76,9 +91,65 @@ backend/tests/              # 17 testes de regressão
 6. **P2:** Worker de agendamento de posts
 7. **P2:** Upload de mídia (S3/Supabase Storage)
 
+## NO-FLY ZONES — NÃO ALTERAR SEM APROVAÇÃO HUMANA
+
+```
+[x] Auth: AuthContext, JWT, Google OAuth, get_current_user
+[x] Schema MongoDB: alterações em collections existentes
+[x] Variáveis de ambiente: JWT_SECRET, MONGO_URL, REACT_APP_BACKEND_URL
+[x] CORS: configuração no backend
+[x] Deploy: Vercel (frontend) ou Render (backend)
+[x] Reverter modo demo: só quando backend estiver confirmado no ar
+```
+
+---
+
+## SAÚDE TÉCNICA (Fase 0 — 2026-05-10)
+
+| Verificação | Status | Detalhe |
+|---|---|---|
+| Build frontend | ⚠️ verificar | `yarn build` deve passar |
+| Testes backend | ⚠️ verificar | `pytest tests/test_mixpost_api.py` — 17/17 |
+| AuthContext | 🔴 DEMO | Segurança zero — reverter com urgência após backend |
+| Backend deploy | 🔴 P0 | Falta MONGO_URL no Render |
+| .env protegido | ✅ OK | variáveis de ambiente não expostas no repo |
+
+---
+
+## SKILLS E FERRAMENTAS
+
+| Situação | Usar |
+|---|---|
+| Revisão antes de deploy | `skill-revisao-pre-producao.md` |
+| Auditoria de limpeza | `skill-raio-x.md` |
+| Debug de bug difícil | `skill-debug-profundo.md` |
+| Antes de commitar | `skill-revisor-commit.md` |
+| Criar componente React | `skill-criador-componente.md` |
+| Eliminar duplicações | `skill-refatorador-dry.md` |
+
+> Skills em: `VIBE CODING TOTUM SYSTEM/Skills para IAs/`
+
+---
+
+## REGRAS QUE NUNCA MUDAM (Totum Torah)
+
+1. Sempre perguntar: **LP/Site | MVP | Teste | Produção?**
+2. **Uma mudança por prompt**
+3. **Testar antes de commitar**
+4. **Documentar antes de mexer**
+5. **IA sugere. Humano aprova** (em No-Fly Zones)
+6. **Preservar o que funciona**
+7. Prioridade: **Confiabilidade → Velocidade → Performance**
+
+---
+
 ## Documentos relacionados
 
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — Diagramas e decisões técnicas
 - [KIMI.md](./KIMI.md) — Contexto específico para frontend/componentes
 - [TODO.md](./TODO.md) — Backlog detalhado
 - [BUGS.md](./BUGS.md) — Issues conhecidas
+
+---
+
+*CLAUDE.md v2.0 — Totum-Suite — Sistema Vibe Coding Totum — 2026-05-10*

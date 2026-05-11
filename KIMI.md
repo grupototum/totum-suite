@@ -1,4 +1,13 @@
-# KIMI.md — Contexto para Kimi Code
+# KIMI.md — Totum-Suite
+
+**Versão:** 2.0
+**Atualizado:** 2026-05-10
+**Nível:** [ ] LP/Site  [ ] MVP  [x] Teste  [ ] Produção
+**Sistema:** Vibe Coding Totum v3.0
+
+> ⚠️ **P0 ATIVO:** Backend não deployado + AuthContext em modo demo. NÃO reverter demo sem backend confirmado.
+
+---
 
 ## O que você vai encontrar aqui
 
@@ -129,3 +138,8 @@ const { user, workspaces, activeWorkspace, login, logout, switchWorkspace } = us
 - [ ] Usar variáveis CSS `--mp-*` em vez de cores hardcoded
 - [ ] Manter consistência com design Swiss/Brutalist
 - [ ] Commits pequenos e descritivos
+
+
+---
+
+*KIMI.md v2.0 — Totum-Suite — Sistema Vibe Coding Totum — 2026-05-10*
